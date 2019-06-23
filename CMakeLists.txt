@@ -53,6 +53,12 @@ set(SOURCES
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 add_library(tobanteGaming::Box2D ALIAS ${PROJECT_NAME})
 
-target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Box2D)
+target_include_directories(${PROJECT_NAME} PUBLIC 
+						$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Box2D>
+						"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>/Box2D")
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 
+#--- Install
+install(TARGETS ${PROJECT_NAME} EXPORT Engine DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+install(DIRECTORY Box2D DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+									FILES_MATCHING PATTERN *.h PATTERN *.hpp)
